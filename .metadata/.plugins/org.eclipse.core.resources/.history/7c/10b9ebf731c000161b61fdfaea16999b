@@ -1,0 +1,60 @@
+package kr.co.jaejoo.reProject.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import kr.co.jaejoo.reProject.vo.AnswerVO;
+
+public class AnswerDAO {
+
+	
+	private ResultSet rs = null;
+	private Connection conn = null;
+	private PreparedStatement pstmt = null;
+	private StringBuffer sb = new StringBuffer();
+
+	// ����޼ҵ� �����
+	public AnswerDAO() {
+		CatchMindStingleton.getInstance().get
+	}
+
+	// ����޼ҵ� �����
+
+	public ArrayList<AnswerVO> Solution() {
+		ArrayList<AnswerVO> list = new ArrayList<AnswerVO>();
+		sb.setLength(0);
+		sb.append("select * from answer ");
+		
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String sol = rs.getString("sol");
+				AnswerVO vo = new AnswerVO(sol);
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	//�ڿ��ݱ�
+	
+	public void close(){
+		try {
+			if(rs != null)rs.close();
+			if(conn != null)conn.close();
+			if(pstmt != null)pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

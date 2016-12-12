@@ -1,0 +1,59 @@
+package kr.co.jaejoo.reProject.client.panel;
+
+import java.awt.TextField;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
+import kr.co.jaejoo.reProject.asset.Setting;
+
+@SuppressWarnings({"serial"})
+public class LoginPanel extends JPanel {
+
+	private TextField loginId;
+	private JPasswordField loginPw;
+	private JButton joinBtn, loginBtn;
+	
+	private Pattern patternEmail;
+	private Matcher matcherEmail;
+	
+	private JOptionPane jOptionPane;
+	
+	private String emailregex = "[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+	private String idregex = "^[a-zA-Z0-9]*$";
+	private String telregex = "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$";
+	
+	public LoginPanel() {
+		setLayout(null);
+		
+		loginId = new TextField();
+		loginPw = new JPasswordField();
+		joinBtn = new JButton("회원가입");
+		loginBtn = new JButton("로그인");
+		
+		setLable(loginId).setBounds(Setting.loginId);
+
+		setLable(loginPw).setBounds(Setting.loginPw);
+
+		setLable(loginBtn).setBounds(Setting.loginBtn);
+
+		setLable(joinBtn).setBounds(Setting.joinBtn);
+		
+	}
+
+	private JComponent setLable(JComponent component) {
+
+		component.setForeground(Setting.bColor);
+
+		component.setFont(Setting.bFont);
+
+		return component;
+
+	}
+	
+}

@@ -1,0 +1,21 @@
+package kr.co.jaejoo.reProject.asset;
+
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
+
+public class Setting {
+
+	private static int width = 1600, height = 900;
+
+	private static Point zeroPoint = new Point(0, 0);
+	// private static Point panelPoint = new Point(0, -30);
+
+	private static Dimension windowsize = Toolkit.getDefaultToolkit().getScreenSize();
+
+	private static Setting instance = new Setting();
+
+	public static Setting getInstance() {
+		return instance;
+	}
+}

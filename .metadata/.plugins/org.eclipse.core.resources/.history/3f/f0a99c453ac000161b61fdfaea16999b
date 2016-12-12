@@ -1,0 +1,17 @@
+package kr.co.jaejoo.reProject.client;
+
+@SuppressWarnings({"static-access", "unused"})
+public class ControlClass {
+
+
+	@SuppressWarnings("unused")
+	private static MainClient mainClient;
+	@SuppressWarnings()
+	private static LoginClient loginClient;
+	
+	public static void main(String[] args) {
+		ControlClass cc = new ControlClass();
+		cc.loginClient = new LoginClient();
+	}
+	
+}

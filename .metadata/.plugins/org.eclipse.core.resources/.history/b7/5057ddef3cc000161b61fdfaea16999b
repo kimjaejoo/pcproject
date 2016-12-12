@@ -1,0 +1,8 @@
+package kr.co.jaejoo.reProject.client.panel;
+
+import javax.swing.JPanel;
+
+@SuppressWarnings({"serial"})
+public class LoginPanel extends JPanel {
+	
+}

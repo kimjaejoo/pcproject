@@ -1,0 +1,20 @@
+package kr.co.jaejoo.reProject.client.panel;
+
+import java.awt.TextField;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
+@SuppressWarnings({"serial"})
+public class LoginPanel extends JPanel {
+
+	private TextField loginId;
+	private JPasswordField loginPw;
+	private JButton joinBtn, loginBtn;
+	
+	public LoginPanel() {
+		setLayout(null);
+	}
+	
+}

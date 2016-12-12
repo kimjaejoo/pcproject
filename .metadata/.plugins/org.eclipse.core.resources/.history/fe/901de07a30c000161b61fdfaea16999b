@@ -1,0 +1,20 @@
+package kr.co.jaejoo.reProject.dao;
+
+public class CatchMindStingleton {
+	String url = "jdbc:mysql://jsptest.cpkkponxntb7.ap-northeast-2.rds.amazonaws.com:3306/pcproject"; // 뒤의 3306은 생략이 가능하나 써주는것이 좋습니다.
+
+	String driver = "com.mysql.jdbc.Driver";
+
+	String user = "test";
+
+	String password = "test1234";
+
+	String dbName = "pcproject";
+
+	CatchMindStingleton cms = new CatchMindStingleton();
+
+	public CatchMindStingleton getConnection() {
+		return cms;
+	}
+
+}

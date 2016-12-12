@@ -1,0 +1,217 @@
+package kr.co.jaejoo.reProject.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import kr.co.jaejoo.reProject.vo.CatchVO;
+
+public class CatchDAO {
+	// 
+	private String driver = "oracle.jdbc.driver.OracleDriver";
+	private String url = "jdbc:oracle:thin:@192.168.0.21:1521:orcl";
+	private String user = "scott";
+	private String password = "tiger";
+	private ResultSet rs = null;
+	private Connection conn = null;
+	private PreparedStatement pstmt = null;
+	private StringBuffer sb = new StringBuffer();
+
+	// ���� �޼ҵ� �����
+	public CatchDAO() {
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// ��������� ��ȸ�ϴ� �޼���
+	public ArrayList<CatchVO> selectAll() {
+		ArrayList<CatchVO> list = new ArrayList<CatchVO>();
+		// SQL ���� �ۼ��ϰ� �װ��� list�� ���
+		sb.setLength(0);
+		// ������ ����� SQL���� �ʱ�ȭ
+		sb.append("SELECT * FROM CATCHMIND");
+
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.executeQuery();
+
+			while (rs.next()) {
+				String name = rs.getString("name");
+				String id = rs.getString("id");
+				String pw = rs.getString("pw");
+				String pw2 = rs.getString("pw2");
+				int lev = rs.getInt("lev");
+				int score = rs.getInt("score");
+				String sol = rs.getString("sol");
+				CatchVO vo = new CatchVO(name, id, pw, pw2, lev, score);
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// ȸ�����Կ� �ʿ��� ������ �Է��ϱ����� �޼���
+
+	public void insetjoin(CatchVO vo) {
+		// ȸ�����Կ� �ʿ��� SQL�� �ۼ��ϱ�
+		sb.setLength(0);
+		sb.append("insert into catchmind ");
+		sb.append("values (?, ?, ?, ?, 1, 0)");
+
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getId());
+			pstmt.setString(3, vo.getPw());
+			pstmt.setString(4, vo.getPw2());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// �α��ο� �ʿ��� ��������
+
+	public CatchVO selectOne(String lgid, String lgpw) {
+		CatchVO vo = null;
+		sb.setLength(0);
+		sb.append("SELECT ID, PW FROM CATCHMIND ");
+		sb.append("WHERE ID = ? AND PW = ?");
+
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, lgid);
+			pstmt.setString(2, lgpw);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				String id = rs.getString("id");
+				String pw = rs.getString("pw");
+
+				vo = new CatchVO(id, pw);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (vo == null)
+			System.out.println("ȸ������ ����");
+		return vo;
+	}
+
+	// ����� ���� ������ �� ������
+	public CatchVO selectOne(String lgid) {
+		CatchVO vo = null;
+		sb.setLength(0);
+		sb.append("SELECT ID, SCORE, LEV FROM CATCHMIND ");
+		sb.append("WHERE ID = ? ");
+
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, lgid);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				String id = rs.getString("id");
+				int score = rs.getInt("score");
+				int lev = rs.getInt("lev");
+
+				vo = new CatchVO(id, score, lev);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (vo == null)
+			System.out.println("ȸ������ ����");
+		return vo;
+	}
+	
+	// �ߺ�Ȯ�ο� �ʿ��� �޼���
+	public CatchVO selectcheck(String checkid) {
+		sb.setLength(0);
+		sb.append("select id from catchmind ");
+		sb.append("where id = ?");
+		CatchVO vo = null;
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, checkid);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+
+				String id = rs.getString("id");
+
+				vo = new CatchVO(id);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (vo == null)
+			System.out.println("��밡���� ���̵�");
+		return vo;
+	}
+
+	public void Scoretwo(CatchVO vo){
+		sb.setLength(0);
+		sb.append("update catchmind ");
+		sb.append("set score = ? ");// ������ �󺧿� ��ϵ� ����...Arraylist�ȿ� �ִ� ���� �������� ���� ���
+		sb.append("where id = ?");// mymyId�� �̿��Ͽ� �÷��̾� ���̵� ������
+		System.out.println(sb.toString());
+		//��������....Ʋ������ �ʾҴ�?
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, vo.getScore());
+			pstmt.setString(2, vo.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void update(CatchVO vo){
+		sb.setLength(0);
+		sb.append("update catchmind ");
+		sb.append("set score = ?, lev = ? ");
+		sb.append("where id = ? ");
+		System.out.println("update ������ : " + sb.toString());
+		
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, vo.getScore());
+			pstmt.setInt(2, vo.getLev());
+			pstmt.setString(3, vo.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//�ڿ��ݱ�
+	public void close(){
+		try {
+			if(rs != null)rs.close();
+			if(conn != null)conn.close();
+			if(pstmt != null)pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+	
+}

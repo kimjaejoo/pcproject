@@ -1,0 +1,11 @@
+package kr.co.jaejoo.reProject.dao;
+
+public class CatchMindStingleton {
+
+	CatchMindStingleton cms = new CatchMindStingleton();
+
+	public CatchMindStingleton getConnection() {
+		return cms;
+	}
+
+}

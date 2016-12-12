@@ -1,0 +1,6 @@
+package kr.co.jaejoo.reProject.client;
+
+// 로그인 화면을 설정합니다. 
+public class LoginClient {
+
+}

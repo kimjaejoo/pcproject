@@ -1,0 +1,59 @@
+package kr.co.jaejoo.reProject.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import kr.co.jaejoo.reProject.vo.AnswerVO;
+
+public class AnswerDAO {
+
+	private ResultSet rs = null;
+	private Connection conn = null;
+	private PreparedStatement pstmt = null;
+	// instance화 함으로서 StringBuffur를 사용합니다.
+	private StringBuffer sb = new StringBuffer();
+
+	// singleton으로 객체를 연결합니다.
+	public AnswerDAO() {
+		conn = CatchMindStingleton.getInstance().getConnection();
+	}
+
+	// 문제를 list안에 저장하고 출력합니다.
+	public ArrayList<AnswerVO> Solution() {
+		ArrayList<AnswerVO> list = new ArrayList<AnswerVO>();
+		sb.setLength(0);
+		sb.append("select * from answer ");
+
+		try {
+			pstmt = conn.prepareStatement(sb.toString());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String sol = rs.getString("sol");
+				AnswerVO vo = new AnswerVO(sol);
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public void close() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (conn != null)
+				conn.close();
+			if (pstmt != null)
+				pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

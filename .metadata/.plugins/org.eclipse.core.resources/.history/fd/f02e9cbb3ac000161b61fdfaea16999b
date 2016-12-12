@@ -1,0 +1,19 @@
+package kr.co.jaejoo.reProject.client;
+
+import kr.co.jaejoo.reProject.asset.Setting;
+
+@SuppressWarnings({"static-access", "unused"})
+public class ControlClass {
+
+	private static MainClient mainClient;
+	private static LoginClient loginClient;
+	
+	public static void main(String[] args) throws Exception {
+		ControlClass cc = new ControlClass();
+		cc.loginClient = new LoginClient();
+		cc.loginClient.setControlClass(cc);
+		
+		cc.loginClient.setRectangles(LoginClient.class, loginClient, Setting.class, Setting.getInstance());
+	}
+	
+}

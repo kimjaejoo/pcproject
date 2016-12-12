@@ -1,0 +1,12 @@
+package kr.co.jaejoo.reProject.client;
+
+public class ControlClass {
+
+	private static MainClient mainClient;
+	
+	public static void main(String[] args) {
+		MainClient main = new MainClient();
+		main.lo
+	}
+	
+}

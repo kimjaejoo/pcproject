@@ -1,0 +1,12 @@
+package kr.co.jaejoo.reProject.asset;
+
+import java.awt.Point;
+
+public class Setting {
+
+	private static int width = 1600 , height = 900;
+	
+	private static Point zeroPoint = new Point(0, 0);
+	private static Point panelPoint = new Point(0, -30);
+	
+}
